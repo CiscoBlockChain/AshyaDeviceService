@@ -1,7 +1,5 @@
 { "urls" : 
 	[ 
-		"http://httpbin.org/post",
-		"http://httpbin.org/post",
 		"http://httpbin.org/post"
     ]
 }

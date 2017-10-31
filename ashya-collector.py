@@ -10,15 +10,19 @@ class JsonF():
 jsonF = JsonF()    
 app = Flask(__name__)
    
-@app.route("/urls")
+@app.route("/urls", )
 def default():
-    while True:
-#        payload = open("urls.json").read()
-#        urls = json.loads(payload)
-        for link in jsonF.urls["urls"]:
-            requests.post(url=link, data=jsonF.payload)
         return jsonF.payload
-    time.sleep(5)
     
 if __name__ == '__main__': 
     app.run(port=5050, debug = True)
+    while True:
+        print("sending data")
+        payload = open("urls.json").read()
+        urls = json.loads(payload)
+        for link in jsonF.urls["urls"]:
+            response = requests.post(url=link, data=jsonF.payload)
+            print(response)
+        time.sleep(5)
+    
+        
