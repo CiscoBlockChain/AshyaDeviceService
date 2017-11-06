@@ -4,8 +4,6 @@ import json
 import threading
 import time
 
-
-
 class JsonF():
      payload = open("urls.json").read()
      urls = json.loads(payload)
@@ -16,8 +14,7 @@ app = Flask(__name__)
 @app.route("/urls", methods=['GET'])
 def default():
         return (jsonF.payload)
-    
-        
+            
 def background():
  
         for link in jsonF.urls["urls"]:
@@ -25,8 +22,6 @@ def background():
             #print(response.json())
             print (link) 
             print("data sent inside for loop")
-
-   
 
 def do_stuff():
     while True:  
@@ -41,4 +36,3 @@ if __name__ == '__main__':
     app.run(port=5050, debug = True)
     default()
     do_stuff()
-    
