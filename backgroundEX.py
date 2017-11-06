@@ -1,5 +1,5 @@
 from flask import Flask
-#import requests
+import requests
 import json
 import threading
 import time
@@ -18,8 +18,8 @@ def default():
 def background():
  
         for link in jsonF.urls["urls"]:
-            #response = requests.post(url=link, data=jsonF.payload)
-            #print(response.json())
+            response = requests.post(url=link, data=jsonF.payload)
+            print(response.json())
             print (link) 
             print("data sent inside for loop")
 
