@@ -3,7 +3,7 @@ FROM debian:stretch
 # Set the working directory to /webservice-app
 WORKDIR /webservice-app
 
-# Copy the current directory contents into the container at /app
+# Copy the current directory contents into the container at /webservice-app
 ADD . /webservice-app
 
 RUN apt-get update && apt-get install -y python3-pip
