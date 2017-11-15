@@ -2,7 +2,7 @@ FROM debian:stretch
 
 #ADD rootfs.tar.xz /
 
-# Set the working directory to /app
+# Set the working directory to /webservice-app
 WORKDIR /webservice-app
 
 # Copy the current directory contents into the container at /app
