@@ -3,6 +3,7 @@ import requests
 import json
 import threading
 import time
+from flask_cors import CORS, cross_origin
 
 class JsonF():
      payload = open("urls.json").read()
