@@ -1,12 +1,7 @@
 from flask import Flask
-import requests
-import json
-import threading
+import requests, json, threading
 import time
 from flask_cors import CORS, cross_origin
-
-
-
 
 class JsonF():
      payload = open("urls.json").read()
@@ -20,6 +15,7 @@ CORS(app)
 @cross_origin()
 def default():
         return (jsonF.payload)
+        
     
         
 def background():
@@ -29,6 +25,7 @@ def background():
             print(response.json())
             print (link) 
             print("data sent inside for loop")
+            
 
    
 
@@ -41,7 +38,9 @@ _thread = threading.Thread(target=do_stuff)
 _thread.setDaemon(True)
 _thread.start()
 
+
 if __name__ == '__main__': 
     app.run(port=5050, debug = True)
     default()
     do_stuff()
+    
