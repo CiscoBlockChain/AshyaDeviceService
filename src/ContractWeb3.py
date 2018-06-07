@@ -21,7 +21,7 @@ class ContractWeb3:
  
         wei_balance = web3.eth.getBalance('0xfe83a8d8fa65db48b00fbd8d1d0809c1d5979082')
 
-        count = self.contract.call().getURLCount()
+        count = self.contract.call().getItemCount()
         print("hi")
 
         print(wei_balance)    
