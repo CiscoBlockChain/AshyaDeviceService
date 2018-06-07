@@ -1,4 +1,4 @@
-from web3 import Web3, HTTPProvider, TestRPCProvider, RPCProvider
+from web3 import Web3, HTTPProvider, TestRPCProvider
 import json
 from flask import Flask
 import requests, threading
@@ -12,12 +12,12 @@ from flask_cors import CORS, cross_origin
 class ContractWeb3:
     def test(self):
         contractAddress = '0x3437369f1a8943092d4149b07c9bf48377981580'
-        web3 = Web3(RPCProvider(host='localhost', port='8545'))
+        web3 = Web3(TestRPCProvider(host='localhost', port='8545'))
  
-         with open(('AshyaRegistry.json'), 'r') as abi_definition:
+        with open(('AshyaRegistry.json'), 'r') as abi_definition:
                  self.abi = json.load(abi_definition)
-         self.contract_address = contractAddress
-         self.contract = self.web3.eth.contract(self.abi, self.contract_address)
+        self.contract_address = contractAddress
+        self.contract = self.web3.eth.contract(self.abi, self.contract_address)
  
         wei_balance = web3.eth.getBalance('0xfe83a8d8fa65db48b00fbd8d1d0809c1d5979082')
 
