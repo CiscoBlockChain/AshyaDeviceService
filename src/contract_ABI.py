@@ -1,40 +1,40 @@
-abi = """[
+abi = [
     {
       "inputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "constructor"
     },
     {
-      "anonymous": false,
+      "anonymous": False,
       "inputs": [
         {
-          "indexed": true,
+          "indexed": True,
           "name": "itemAddress",
           "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": False,
           "name": "index",
           "type": "uint256"
         },
         {
-          "indexed": false,
+          "indexed": False,
           "name": "iname",
           "type": "string"
         },
         {
-          "indexed": false,
+          "indexed": False,
           "name": "location",
           "type": "string"
         },
         {
-          "indexed": false,
+          "indexed": False,
           "name": "url",
           "type": "string"
         },
         {
-          "indexed": false,
+          "indexed": False,
           "name": "ownerAddress",
           "type": "address"
         }
@@ -43,15 +43,15 @@ abi = """[
       "type": "event"
     },
     {
-      "anonymous": false,
+      "anonymous": False,
       "inputs": [
         {
-          "indexed": true,
+          "indexed": True,
           "name": "itemAddress",
           "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": False,
           "name": "index",
           "type": "uint256"
         }
@@ -60,7 +60,7 @@ abi = """[
       "type": "event"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "name": "name",
@@ -85,12 +85,12 @@ abi = """[
       ],
       "name": "addItem",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [],
       "name": "getItemCount",
       "outputs": [
@@ -99,12 +99,12 @@ abi = """[
           "type": "uint256"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "name": "_itemAddress",
@@ -113,12 +113,12 @@ abi = """[
       ],
       "name": "removeItem",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "name": "itemAddress",
@@ -148,12 +148,12 @@ abi = """[
           "type": "address"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": True,
       "inputs": [
         {
           "name": "index",
@@ -167,12 +167,12 @@ abi = """[
           "type": "address"
         }
       ],
-      "payable": false,
+      "payable": False,
       "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": False,
       "inputs": [
         {
           "name": "itemAddress",
@@ -185,9 +185,9 @@ abi = """[
       ],
       "name": "addUrl",
       "outputs": [],
-      "payable": false,
+      "payable": False,
       "stateMutability": "nonpayable",
       "type": "function"
     }
-]"""
+]
 

@@ -6,7 +6,7 @@ import time
 from flask_cors import CORS, cross_origin
 
 class JsonF():
-     payload = open("urls.json").read()
+     payload = open("src/urls.json").read()
      urls = json.loads(payload)
 
 jsonF = JsonF()    
