@@ -12,7 +12,8 @@ def main():
     contract = web3.eth.contract(address=address, abi=device_ABI.abi)
 
     nb = contract.functions.getURLCount().call()
-    print(nb)
+    for i in range(0,nb):
+        print(contract.functions.urls(i).call())
 
 
 if __name__ == "__main__":
