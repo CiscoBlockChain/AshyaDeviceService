@@ -30,3 +30,4 @@ class DeviceColletor():
 if __name__ == "__main__":
     print ("Script has started...")
     DeviceColletor.main()
+    print ("Script has ended...")
