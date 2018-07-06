@@ -25,6 +25,11 @@ class DeviceColletor():
         file_name = "/etc/ashya/device_contract.json"   
         with open(file_name, 'w') as outfile:
             json.dump(json_data, outfile)
+            
+    def read_contract():
+        file_name = "/etc/ashya/device_contract.json"   
+        with open(file_name, "r") as f:  
+            print(json.load(f))
                
 
 if __name__ == "__main__":
