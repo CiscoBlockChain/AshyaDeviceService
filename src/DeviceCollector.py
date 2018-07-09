@@ -6,12 +6,12 @@ class DeviceColletor():
     addresses = []
 
     def write_contract(json_data):
-        file_name = "device_contract.json"
+        file_name = "etc/ashya/device_contract.json"
         with open(file_name, 'w+') as outfile:
             json.dump(json_data, outfile)
 
     def read_contract():
-        file_name = "device_contract.json"
+        file_name = "etc/ashya/device_contract.json"
         try:
             with open(file_name, "r") as f:
                 return json.load(f)
