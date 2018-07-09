@@ -9,9 +9,9 @@ CORS(app)
 class DeviceColletor():
     addresses = []
 
-    def write_contract(json_data):
+    def write_contract(json_data, path):
         file_name = "etc/ashya/device_contract.json"
-        with open(file_name, 'w+') as outfile:
+        with open(path, 'w+') as outfile:
             json.dump(json_data, outfile)
 
     def read_contract():
@@ -46,7 +46,7 @@ class DeviceColletor():
             if (a not in addresses['address']):
                 addresses['address'].append(a)
 
-        DeviceColletor.write_contract(addresses)
+        DeviceColletor.write_contract(addresses,"etc/ashya/device_contract.json")
 
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
@@ -58,7 +58,7 @@ def Collect_Urls():
         nb = contract.functions.getURLCount().call()
         for i in range(0,nb):
             urls = contract.functions.urls(i).call() 
-            DeviceColletor.write_contract(urls, "/etc/ashya/urls.json")
+            DeviceColletor.write_contract(urls, "etc/ashya/urls.json")
             print(urls)
             return urls
         
