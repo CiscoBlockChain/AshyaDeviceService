@@ -12,8 +12,11 @@ class DeviceColletor():
 
     def read_contract():
         file_name = "device_contract.json"
-        with open(file_name, "r") as f:
-            return json.load(f)
+        try:
+            with open(file_name, "r") as f:
+                return json.load(f)
+        except:
+                return{'address':[]}
 
     def main():
         web3 = Web3(HTTPProvider('https://kovan.infura.io/'))
