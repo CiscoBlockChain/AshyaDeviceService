@@ -11,7 +11,7 @@ jsonF = JsonF()
 app = Flask(__name__)
 CORS(app)
    
-    @app.route("/urls", methods=['GET'])
+@app.route("/urls", methods=['GET'])
 @cross_origin()
 def default():
         return (jsonF.payload)

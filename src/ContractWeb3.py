@@ -1,6 +1,9 @@
-#! /usr/bin/env python
 from web3 import Web3,HTTPProvider
 import device_ABI
+from flask import Flask
+import requests,threading
+import time
+from flask_cors import CORS, cross_origin
 
 def main():
     web3 = Web3(HTTPProvider('https://kovan.infura.io/'))
@@ -12,6 +15,7 @@ def main():
     nb = contract.functions.getURLCount().call()
     for i in range(0,nb):
         print(contract.functions.urls(i).call())
+        
 
 
 if __name__ == "__main__":
