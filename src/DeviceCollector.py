@@ -59,7 +59,6 @@ with app.test_request_context():
     _thread.start()
 
 if __name__ == "__main__":
-    obj = DeviceColletor()
     print ("Script has started...")
     DeviceColletor.main()
     do_stuff()
