@@ -51,7 +51,7 @@ def do_stuff():
     with app.test_request_context():
         while True:  
             Collect_Urls()
-            time.sleep(5)  
+            time.sleep(15)  
 
 with app.test_request_context():           
     _thread = threading.Thread(target=do_stuff)
