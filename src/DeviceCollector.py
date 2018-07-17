@@ -10,9 +10,9 @@ CORS(app)
 @cross_origin()
 def contract():
     if (request.method == "POST"):
-        write_contract(request.data, "/etc/ashya/device_contract.json")       
+        return write_contract(request.data, "/etc/ashya/device_contract.json")       
     elif(request.method == "GET"):
-         read_contract()
+        return read_contract()
         
 
 def write_contract(json_data, path):
@@ -29,7 +29,6 @@ def read_contract():
            return json.load(f)
    except:
            return {'address': []}
-   return {'address': []}      
         
 
 @app.route("/urls", methods=['GET'])
