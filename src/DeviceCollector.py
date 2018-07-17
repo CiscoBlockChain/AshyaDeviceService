@@ -18,8 +18,8 @@ def contract():
 def write_contract(json_data, path):
     with app.test_request_context():
     #file_name = "etc/ashya/device_contract.json"
-        with open(path, 'w+') as outfile:
-            json.dump(json_data, outfile)
+    with open(path, 'w+') as outfile:
+        json.dump(json_data, outfile)
 
 def read_contract():
            # with app.test_request_context():
