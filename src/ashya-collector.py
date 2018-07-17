@@ -39,9 +39,11 @@ def write_contract(json_data):
     with open(file_name, "w") as f:
         f.write(json_data.dump)
     
-def read_contract():
-    file_name = "/etc/ashya/device_contract.json"   
-    with open(file_name, "r") as f: 
+# =============================================================================
+# def read_contract():
+#     file_name = "/etc/ashya/device_contract.json"   
+#     with open(file_name, "r") as f: 
+# =============================================================================
         
 
 def do_stuff():
@@ -55,7 +57,8 @@ _thread.start()
 
 
 if __name__ == '__main__': 
-    app.run(port=5050, debug = True)
+    app.run(debug = True)
+    app.run(host ='0.0.0.0',port=5050)
     default()
     do_stuff()
     
