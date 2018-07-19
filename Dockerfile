@@ -9,4 +9,4 @@ WORKDIR /app
 # Make port 5050 available to the world outside this container
 EXPOSE 5050
 # Run ashya-collector.py when the container launches
-CMD [ "python3", "ashya-collector.py" ]
+CMD [ "python3", "DeviceCollector.py" ]
