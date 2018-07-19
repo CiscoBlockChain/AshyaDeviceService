@@ -1,6 +1,7 @@
+#!/usr/bin/env python
 from web3 import Web3,HTTPProvider
 import  device_ABI
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import threading, json, time
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
@@ -22,40 +23,42 @@ def write_contract(json_data, path):
             json.dump(json_data, outfile)  
 
 def read_contract():
-           # with app.test_request_context():
+   # with app.test_request_context():
    file_name = "/etc/ashya/device_contract.json"
    try:
        with open(file_name, "r") as f:
            return json.load(f)
    except:
-           return {'address': " "}
+           return {'address': ""}
 
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
-def Collect_Urls():
-    with app.test_request_context():
-        
-        contractHash = read_contract()
-        if not 'address' in contractHash:
-            #print(address )
-            return None
-        address = contractHash["address"]
-        web3 = Web3(HTTPProvider('https://kovan.infura.io/'))
-        if address:   
-            contract = web3.eth.contract(address= address, abi = device_ABI.abi)
-            nb = contract.functions.getURLCount().call()
-            for i in range(0,nb):
-                urls = contract.functions.urls(i).call() 
-                write_contract(urls, "etc/ashya/urls.json")
-                print(urls)
-                return urls    
-        else: return "no valid address"    
+def get_urls():
+    urls = collect_urls()    
+    if urls:
+        return jsonify({"urls" : urls}), 200
+    return jsonify({"urls":[]}), 200
 
+def collect_urls():
+    urls = []
+    contractHash = read_contract()
+    if not 'address' in contractHash:
+        return urls
+    address = contractHash["address"]
+    print("address: {0}".format(address))
+    if address:   
+        web3 = Web3(HTTPProvider('https://kovan.infura.io/'))
+        contract = web3.eth.contract(address= address, abi = device_ABI.abi)
+        nb = contract.functions.getURLCount().call()
+        for i in range(0,nb):
+            urls = contract.functions.urls(i).call() 
+            return urls    
+    return urls
         
 def do_stuff():
     with app.test_request_context():
         while True:  
-            Collect_Urls()
+            collect_urls()
             time.sleep(15)  
 
 with app.test_request_context():           
