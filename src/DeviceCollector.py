@@ -18,8 +18,8 @@ def contract():
 def write_contract(json_data, path):
     with app.test_request_context():
     #file_name = "etc/ashya/device_contract.json"
-    with open(path, 'w+') as outfile:
-        json.dump(json_data, outfile)
+        with open(path, 'w+') as outfile:
+            json.dump(json_data, outfile)  
 
 def read_contract():
            # with app.test_request_context():
@@ -28,23 +28,29 @@ def read_contract():
        with open(file_name, "r") as f:
            return json.load(f)
    except:
-           return {'address': []}
-        
+           return {'address': " "}
 
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
 def Collect_Urls():
-        with app.test_request_context():
-            web3 = Web3(HTTPProvider('https://kovan.infura.io/'))
-            print (web3, "web3")
-            address = Web3.toChecksumAddress('0x0d7B49A97775EbC2a42D0105bEF7086F9bD92722')
-            contract = web3.eth.contract(address=address, abi = device_ABI.abi)
+    with app.test_request_context():
+        
+        contractHash = read_contract()
+        if not 'address' in contractHash:
+            #print(address )
+            return None
+        address = contractHash["address"]
+        web3 = Web3(HTTPProvider('https://kovan.infura.io/'))
+        if address:   
+            contract = web3.eth.contract(address= address, abi = device_ABI.abi)
             nb = contract.functions.getURLCount().call()
             for i in range(0,nb):
                 urls = contract.functions.urls(i).call() 
                 write_contract(urls, "etc/ashya/urls.json")
                 print(urls)
-                return urls
+                return urls    
+        else: return "no valid address"    
+
         
 def do_stuff():
     with app.test_request_context():
@@ -97,6 +103,17 @@ if __name__ == "__main__":
 #                         addresses['address'].append(a)
 #         
 #                 write_contract(addresses,"etc/ashya/device_contract.json")
+    
+# =============================================================================
+#             address = Web3.toChecksumAddress('0x0d7B49A97775EbC2a42D0105bEF7086F9bD92722')
+#         contract = web3.eth.contract(address=address, abi = device_ABI.abi)
+#         nb = contract.functions.getURLCount().call()
+#         for i in range(0,nb):
+#             urls = contract.functions.urls(i).call() 
+#             write_contract(urls, "etc/ashya/urls.json")
+#             print(urls)
+#             return urls
+# =============================================================================
 # =============================================================================  
     
     
