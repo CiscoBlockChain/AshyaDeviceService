@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 FROM resin/raspberry-pi-alpine-python:3
+=======
+FROM python:3-alpine
+>>>>>>> 78fab2e5853294b7e76d402aad18a1fbb8f806b9
 RUN apk add build-base
 COPY requirements.txt ./
 RUN pip install --upgrade pip
