@@ -1,7 +1,8 @@
-FROM resin/raspberry-pi-alpine-python:latest
+FROM resin/raspberry-pi-alpine-python:3
 RUN apk add build-base
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 #RUN pip3 install flask && pip3 install requests
 # add src to app directory
 ADD src/* /app/
