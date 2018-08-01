@@ -1,5 +1,5 @@
 FROM resin/raspberry-pi-alpine-python:3
-RUN apk add build-base
+#RUN apk add build-base
 COPY requirements.txt ./
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
