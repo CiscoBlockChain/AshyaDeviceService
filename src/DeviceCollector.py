@@ -13,7 +13,7 @@ def contract():
     if (request.method == "POST"):
         return write_contract(request.data, "/etc/ashya/device_contract.json")       
     elif(request.method == "GET"):
-        return read_contract()
+        return jsonify(read_contract())
         
 
 def write_contract(json_data, path):
@@ -23,8 +23,7 @@ def write_contract(json_data, path):
             json.dump(json_data, outfile)  
 
 def read_contract():
-   # with app.test_request_context():
-   file_name = "/etc/ashya/device_contract.json"
+   file_name = "etc/ashya/device_contract.json"
    try:
        with open(file_name, "r") as f:
            return json.load(f)
