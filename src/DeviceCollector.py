@@ -11,7 +11,7 @@ CORS(app)
 @cross_origin()
 def contract():
     if (request.method == "POST"):
-        return write_contract(request.data, "/etc/ashya/device_contract.json")       
+        return write_contract(request.data, "/app/ashya/device_contract.json")       
     elif(request.method == "GET"):
         return jsonify(read_contract())
         
@@ -23,7 +23,7 @@ def write_contract(json_data, path):
             json.dump(json_data, outfile)  
 
 def read_contract():
-   file_name = "etc/ashya/device_contract.json"
+   file_name = "/app/ashya/device_contract.json"
    try:
        with open(file_name, "r") as f:
            return json.load(f)
