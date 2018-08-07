@@ -10,5 +10,5 @@ docker build -t ashya/collector .
 ## Run
 
 ```
-docker run -d -p 5050:5050 ashya/collector
+docker run -it -p 5050:5050 ashya/collector
 ```
