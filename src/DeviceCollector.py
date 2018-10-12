@@ -19,7 +19,7 @@ def write_contract(json_data, file_name):
     with app.test_request_context():
         with open(file_name, 'w+') as outfile:
             json.dump(json_data, outfile)  
-        return jsonify(read_contract()), 201
+        return jsonify(read_contract(file_name)), 201
 
 def read_contract(file_name):
    try:
