@@ -5,14 +5,15 @@ import threading, json, time
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 CORS(app)   
+contract_file = "/app/device_contract.json"
 
 @app.route("/contract", methods=['POST', 'GET'])
 @cross_origin()
 def contract():
     if (request.method == "POST"):
-        return write_contract(request.data, "/app/device_contract.json")       
+        return write_contract(request.data, contract_file)
     elif(request.method == "GET"):
-        return jsonify(read_contract("/app/device_contract.json"))
+        return jsonify(read_contract(contract_file))
         
 
 def write_contract(json_data, file_name):
@@ -38,7 +39,7 @@ def get_urls():
 
 def collect_urls():
     urls = []
-    contractHash = read_contract()
+    contractHash = read_contract(contract_file)
     if not 'address' in contractHash:
         return urls
     address = contractHash["address"]
