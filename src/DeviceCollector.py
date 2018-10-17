@@ -11,12 +11,13 @@ contract_file = "/app/device_contract.json"
 @cross_origin()
 def contract():
     if (request.method == "POST"):
-        return write_contract(request.data, contract_file)
+        return write_contract(request.json, contract_file)
     elif(request.method == "GET"):
         return jsonify(read_contract(contract_file))
         
 
 def write_contract(json_data, file_name):
+    print("json data: ", json_data)
     with app.test_request_context():
         with open(file_name, 'w+') as outfile:
             json.dump(json_data, outfile)  
