@@ -17,12 +17,10 @@ def kafka_connect():
         print('Exception in publishing message')
         print(str(ex))
         
-def kafka_get_values():
-    consumer = KafkaConsumer('test')
-    for msg in consumer:
-        print(msg)  
-      
-
+#def kafka_get_values():
+#    consumer = KafkaConsumer('test')
+#    for msg in consumer:
+#        print(msg)  
 
 def random_data():
     fake = Faker()

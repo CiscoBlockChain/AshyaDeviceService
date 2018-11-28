@@ -8,8 +8,7 @@ def kafka_get_values():
     #start iterate
     for message in consumer:
         print(message.value)
-        values.append(message.value)
-        
+        values.append(message.value) 
     return values    
         
     
