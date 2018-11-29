@@ -10,7 +10,7 @@ from kafka import KafkaConsumer
 
 app = Flask(__name__)
 CORS(app)  
-contract_file = ""
+contract_file = "/app/device_contract.json"
 
 
 @app.route("/contract", methods=['POST', 'GET'])
