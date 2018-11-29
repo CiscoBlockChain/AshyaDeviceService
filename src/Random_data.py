@@ -4,7 +4,7 @@ from faker_schema.faker_schema import FakerSchema
 from faker_schema.schema_loader import load_json_from_string, load_json_from_file 
 import json
 
-json_string = '{"2011-09-11 10:48:38.23": {"persons": 4,"umbrellas": 3,"chairs": 5}}'
+json_string = '{{"2011-09-11 10:48:38.23": {"persons": 4,"umbrellas": 3,"chairs": 5}}'
 
 def kafka_connect():
     producer = KafkaProducer(bootstrap_servers='localhost:9092')
