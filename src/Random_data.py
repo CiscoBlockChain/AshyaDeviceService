@@ -1,31 +1,33 @@
 from __future__ import absolute_import
-from faker import Faker
-from kafka import KafkaProducer, KafkaConsumer
+from kafka import KafkaProducer
+from faker_schema.faker_schema import FakerSchema
+from faker_schema.schema_loader import load_json_from_string, load_json_from_file 
+#import json
+
+json_string = '{"2011-09-11 10:48:38.23": {"persons": 4,"umbrellas": 3,"chairs": 5}}'
 
 def kafka_connect():
     producer = KafkaProducer(bootstrap_servers='localhost:9092')
-    temp = random_data()
+    temp = json_faker()
     print("here")
     try:
-        #producer = KafkaProducer(value_serializer=lambda v: str.encode('utf-8'))
         producer = KafkaProducer(key_serializer=str.encode)
         producer.send('test', key='my message', value=str.encode(temp))
-        #producer.send('test',temp)
         producer.flush()
         print('Message published successfully.')
     except Exception as ex:
         print('Exception in publishing message')
         print(str(ex))
         
-#def kafka_get_values():
-#    consumer = KafkaConsumer('test')
-#    for msg in consumer:
-#        print(msg)  
+def json_faker(): 
+    schema = load_json_from_string(json_string)
+    faker = FakerSchema()
+    data = faker.generate_fake(schema)
+#    schema = load_json_from_file('C:/CiscoBlockchain/web-service/src/etc/ashya/json_data.json')
+#    faker = FakerSchema()
+#    data = faker.generate_fake(schema)
+    print(data)
 
-def random_data():
-    fake = Faker()
-    for _ in range(3):
-        return fake.text()
         
         
 if __name__ == "__main__":

@@ -10,8 +10,7 @@ from kafka import KafkaConsumer
 
 app = Flask(__name__)
 CORS(app)  
-contract_file = ""
-
+contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
 
 @app.route("/contract", methods=['POST', 'GET'])
 @cross_origin()
@@ -20,15 +19,13 @@ def contract():
         return write_contract(request.json, contract_file)
     elif(request.method == "GET"):
         return jsonify(read_contract(contract_file))
-        
-
+  
 def write_contract(json_data, file_name):
     print("json data: ", json_data)
     with app.test_request_context():
         with open(file_name, 'w+') as outfile:
             json.dump(json_data, outfile)  
         return jsonify(read_contract(file_name)), 201
-
 
 def read_contract(file_name):
    try:
@@ -38,7 +35,6 @@ def read_contract(file_name):
            print(ex)
            return {'address': ""}
        
-
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
 def get_urls():
@@ -46,7 +42,6 @@ def get_urls():
     if urls:
         return jsonify({"urls" : urls}), 200
     return jsonify({"urls":[]}), 200
-
 
 def collect_urls():
     urls = []
@@ -60,29 +55,31 @@ def collect_urls():
         web3 = Web3(HTTPProvider('https://kovan.infura.io/'))
         contract = web3.eth.contract(address= address, abi = device_ABI.abi)
         nb = contract.functions.getURLCount().call()
+        print(nb)
         for i in range(0,nb):
-            payload = kafka_consumer()
-            requests.post(urls(i), data=payload)
             urls = contract.functions.urls(i).call()
-            return urls    
+            payload = kafka_consumer()
+            requests.post(urls(i), data= payload)
+        print(urls)  
     return urls
             
 #retriving data from kafka service and send them to DeviceUrl        
 def kafka_consumer():
     values = []
+    print(" insude consumer")
     consumer = KafkaConsumer('test')
     for message in consumer:
         print(message.value)
-        values.append(message.value) 
-    return values    
-       
-    
+        values.append(message.value)
+
+            
+ 
 def do_stuff():
     with app.test_request_context():
         while True:  
             collect_urls()
+            kafka_consumer()
             time.sleep(15)  
-   
       
 with app.test_request_context():           
     _thread = threading.Thread(target=do_stuff)
