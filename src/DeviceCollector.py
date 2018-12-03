@@ -10,7 +10,11 @@ from kafka import KafkaConsumer
 
 app = Flask(__name__)
 CORS(app)  
+<<<<<<< HEAD
 contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
+=======
+contract_file = "/app/device_contract.json"
+>>>>>>> dc0bf2045365b0412b06cc61f9db861763421f33
 
 @app.route("/contract", methods=['POST', 'GET'])
 @cross_origin()
@@ -70,9 +74,13 @@ def kafka_consumer():
     consumer = KafkaConsumer('test')
     for message in consumer:
         print(message.value)
+<<<<<<< HEAD
         values.append(message.value)
 
             
+=======
+        values.append(message.value)       
+>>>>>>> dc0bf2045365b0412b06cc61f9db861763421f33
  
 def do_stuff():
     with app.test_request_context():
