@@ -1,22 +1,18 @@
 from __future__ import absolute_import
 from kafka import KafkaProducer
+import datetime
 from faker_schema.faker_schema import FakerSchema
-from faker_schema.schema_loader import load_json_from_string, load_json_from_file 
-<<<<<<< HEAD
-#import json
-=======
-import json
->>>>>>> dc0bf2045365b0412b06cc61f9db861763421f33
+from faker_schema.schema_loader import  load_json_from_file
 
-json_string = '{"2011-09-11 10:48:38.23": {"persons": 4,"umbrellas": 3,"chairs": 5}}'
 
 def kafka_connect():
     producer = KafkaProducer(bootstrap_servers='localhost:9092')
-    temp = json_faker()
     print("here")
+    temp = json_faker()   
     try:
-        producer = KafkaProducer(key_serializer=str.encode)
-        producer.send('test', key='my message', value=str.encode(temp))
+        key_bytes = bytes(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        value_bytes = bytes(temp, encoding='utf-8')
+        producer.send("test", key=key_bytes, value=value_bytes)
         producer.flush()
         print('Message published successfully.')
     except Exception as ex:
@@ -24,18 +20,12 @@ def kafka_connect():
         print(str(ex))
         
 def json_faker(): 
-    schema = load_json_from_string(json_string)
+    print("from faker")
+    json_string = '{"2011-09-11 10:48:38.23": {"persons": 4,"umbrellas": 3,"chairs": 5}}'
     faker = FakerSchema()
-    data = faker.generate_fake(schema)
-<<<<<<< HEAD
-#    schema = load_json_from_file('C:/CiscoBlockchain/web-service/src/etc/ashya/json_data.json')
-#    faker = FakerSchema()
-#    data = faker.generate_fake(schema)
-    print(data)
-=======
+    data = faker.generate_fake(json_string)
     print(data)
     return data
->>>>>>> dc0bf2045365b0412b06cc61f9db861763421f33
 
         
         
