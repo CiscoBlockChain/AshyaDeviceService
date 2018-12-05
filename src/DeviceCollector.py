@@ -64,7 +64,7 @@ def collect_urls():
             payload = generate()
             print("from collect urls")
             print(payload)
-            requests.post(urls(i), data= payload)
+            requests.post(urls(i), data= json.dumps(payload))
         print(urls)  
     return urls
             
