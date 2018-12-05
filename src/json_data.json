@@ -1,2 +1,11 @@
- {'employee_id': 'uuid4', 'employee_name': 'name', 'employee address': 'address',
-'email_address': 'email'}
+    lambda: {
+        'id': _('uuid'),
+        'name': _('text.word'),
+        'version': _('version', pre_release=True),
+        'timestamp': _('timestamp', posix=False),
+        'owner': {
+                'email': _('person.email', key=str.lower),
+                'token': _('token'),
+                'creator': _('full_name', gender=Gender.FEMALE),
+                },
+                }

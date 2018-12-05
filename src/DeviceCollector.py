@@ -1,12 +1,13 @@
 from __future__ import absolute_import
 from web3 import Web3,HTTPProvider
 import  device_ABI
-import json
 import requests
+from mimesis.schema import Field, Schema
+import json
 from flask import Flask, request, jsonify
 import threading, time
 from flask_cors import CORS, cross_origin
-from kafka import KafkaConsumer
+from kafka import KafkaProducer
 
 app = Flask(__name__)
 CORS(app)  
@@ -60,27 +61,51 @@ def collect_urls():
         print(nb)
         for i in range(0,nb):
             urls = contract.functions.urls(i).call()
-            payload = kafka_consumer()
+            payload = generate()
+            print("from collect urls")
+            print(payload)
             requests.post(urls(i), data= payload)
         print(urls)  
     return urls
             
 #retriving data from kafka service and send them to DeviceUrl        
-def kafka_consumer():
-    values = []
-    print(" insude consumer")
-    consumer = KafkaConsumer('test')
-    for message in consumer:
-        print(message.value)
-        values.append(message.value)
-        values.append(message.value)       
+def kafka_connect():
+    producer = KafkaProducer(bootstrap_servers='localhost:9092')
+    print("here")
+    temp = generate()   
+    try:
+        val = json.dumps(temp).encode()
+        producer.send('test', value=val)
+        #producer.send("test", temp)
+        producer.flush()
+        print('Message published successfully.')
+    except Exception as ex:
+        print('Exception in publishing message')
+        print(str(ex))
+        
+def generate():
+    _ = Field('en')
+    description = (
+    lambda: {
+        'timestamp': _('timestamp', posix=False),
+        'id': _('uuid'),
+        'name': _('text.word'),
+        'owner': {
+                'token': _('token')
+                },
+                }
+        )
+    schema = Schema(schema=description)
+    r = schema.create(iterations=1)
+    print(r)
+    return r      
  
 def do_stuff():
     with app.test_request_context():
         while True:  
             collect_urls()
-            kafka_consumer()
-            time.sleep(15)  
+            kafka_connect()
+            time.sleep(5)  
       
 with app.test_request_context():           
     _thread = threading.Thread(target=do_stuff)

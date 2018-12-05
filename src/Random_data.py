@@ -1,33 +1,40 @@
 from __future__ import absolute_import
 from kafka import KafkaProducer
-import datetime
-from faker_schema.faker_schema import FakerSchema
-from faker_schema.schema_loader import  load_json_from_file
-
+from mimesis.schema import Field, Schema
+import json
 
 def kafka_connect():
     producer = KafkaProducer(bootstrap_servers='localhost:9092')
     print("here")
-    temp = json_faker()   
+    temp = generate()   
     try:
-        key_bytes = bytes(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        value_bytes = bytes(temp, encoding='utf-8')
-        producer.send("test", key=key_bytes, value=value_bytes)
+        val = json.dumps(temp).encode()
+        producer.send('test', value=val)
+        #producer.send("test", temp)
         producer.flush()
         print('Message published successfully.')
     except Exception as ex:
         print('Exception in publishing message')
         print(str(ex))
         
-def json_faker(): 
-    print("from faker")
-    json_string = '{"2011-09-11 10:48:38.23": {"persons": 4,"umbrellas": 3,"chairs": 5}}'
-    faker = FakerSchema()
-    data = faker.generate_fake(json_string)
-    print(data)
-    return data
+def generate():
+    _ = Field('en')
+    description = (
+    lambda: {
+        'timestamp': _('timestamp', posix=False),
+        'id': _('uuid'),
+        'name': _('text.word'),
+        'owner': {
+                'token': _('token')
+                },
+                }
+        )
+    schema = Schema(schema=description)
+    r = schema.create(iterations=1)
+    print(r)
+    return r
 
         
         
 if __name__ == "__main__":
-    kafka_connect()
+     kafka_connect()
