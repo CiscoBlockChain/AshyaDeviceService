@@ -13,6 +13,13 @@ docker build -t ashya/collector .
 docker run -d -p 5050:5050 ashya/collector
 ```
 
+
+###  Running and testing dev
+
+```
+cd src/
+docker run -d -p 5050:5050 -v `pwd`:/app ashya/collector
+```
 ## API
 
 ### ```/contract```
