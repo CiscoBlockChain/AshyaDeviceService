@@ -26,7 +26,7 @@ services:
     ports:
       - "80:5000"
   collector:
-    image: ashya/rpi-collector:latest
+    image: ashya/collector:latest
     ports:
       - "5050:5050"
     depends_on:
