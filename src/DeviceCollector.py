@@ -2,19 +2,21 @@ from __future__ import absolute_import
 from web3 import Web3,HTTPProvider
 import  device_ABI
 import requests
-import json, os, sys
+import json, sys
 from flask import Flask, request, jsonify
 import threading, time
 from flask_cors import CORS, cross_origin
-from kafka import KafkaConsumer
+import paho.mqtt.client as mqtt
+
 
 app = Flask(__name__)
 CORS(app)  
 #contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
 contract_file = "/app/contracts/device_contract.json"
-kafka_service = os.environ['KAFKA_HOST']
-kafka_topic = 'yolo'
-
+topic = "yolo"
+port = 1883
+host = "eclipse.cisco.com"
+client= mqtt.Client() 
 
 @app.route("/contract", methods=['POST', 'GET'])
 @cross_origin()
@@ -23,6 +25,7 @@ def contract():
         return write_contract(request.json, contract_file)
     elif(request.method == "GET"):
         return jsonify(read_contract(contract_file))
+
   
 def write_contract(json_data, file_name):
     print("json data: ", json_data)
@@ -31,6 +34,7 @@ def write_contract(json_data, file_name):
             json.dump(json_data, outfile)  
         return jsonify(read_contract(file_name)), 201
 
+
 def read_contract(file_name):
    try:
        with open(file_name, "r") as f:
@@ -38,6 +42,7 @@ def read_contract(file_name):
    except Exception as ex:
            print(ex)
            return {'address': ""}
+
        
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
@@ -47,11 +52,10 @@ def get_urls():
         return jsonify({"urls" : urls}), 200
     return jsonify({"urls":[]}), 200
 
+
+#1.Check to see if there is a contract on this device
+#2. Get the subscribers of the device by querying the blockchain
 def collect_urls():
-    """
-    1. Check to see if there is a contract on this device
-    2. Get the subscribers of the device by querying the blockchain
-    """
     urls = []
     contractHash = read_contract(contract_file)
     print(contractHash)
@@ -68,24 +72,21 @@ def collect_urls():
             urls.append(contract.functions.urls(i).call())
     return urls
            
+#Sending data to the subscribers
 def send_data_to_subscribers(urls): 
-    """
-    Sending data to the subscribers
-    """
     try:
-        consumer = KafkaConsumer(kafka_topic, bootstrap_servers=kafka_service)
+        client.connect(host,port)
+        recieved_msgs = client.subscribe(topic)
+        print(recieved_msgs)
     except Exception as e:
-        print("Could not connect to Kafka service: ", kafka_service)
+        print("Could not connect to mqtt broker: ")
         print(e)
-        
         sys.exit(1)
 
-    for msg in consumer:
+    for msg in recieved_msgs:
         for u in urls:
             print(msg)
             requests.post(u, data=json.dumps(msg))
-    consumer.close()
-
 
 def do_stuff():
     with app.test_request_context():

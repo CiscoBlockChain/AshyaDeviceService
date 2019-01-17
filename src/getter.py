@@ -1,14 +1,19 @@
 from __future__ import absolute_import
-#from faker import Faker
-from kafka import KafkaProducer, KafkaConsumer
+import paho.mqtt.client as mqtt
 
-def kafka_get_values():
-    consumer = KafkaConsumer('test')
-    for msg in consumer:
-        print(msg)
-    consumer.close()    
+topic = "yolo"
+port = 1883
+host = "iot.eclipse.org"
+client= mqtt.Client()
  
+def get_values():
+    client.connect(host, port)
+    recieved_msgs = client.subscribe(topic)
+    for msg in recieved_msgs:
+        print(recieved_msgs)
+    client.loop_start()
+            
     
 if __name__ == "__main__":
-     kafka_get_values()
+    get_values()
     
