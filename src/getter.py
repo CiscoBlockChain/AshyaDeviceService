@@ -10,7 +10,7 @@ def get_values():
     client.connect(host, port)
     recieved_msgs = client.subscribe(topic)
     for msg in recieved_msgs:
-        print(recieved_msgs)
+        print(msg)
     client.loop_start()
             
     
