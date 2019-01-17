@@ -15,7 +15,7 @@ CORS(app)
 contract_file = "/app/contracts/device_contract.json"
 topic = "yolo"
 port = 1883
-host = "eclipse.cisco.com"
+host = "iot.eclipse.org"
 client= mqtt.Client() 
 
 @app.route("/contract", methods=['POST', 'GET'])
