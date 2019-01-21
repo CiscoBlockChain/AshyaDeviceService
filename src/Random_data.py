@@ -41,7 +41,7 @@ def generate():
     print(r)
     return r
 
-        
+
         
 if __name__ == "__main__":
      connect()

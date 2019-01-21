@@ -11,12 +11,13 @@ import paho.mqtt.client as mqtt
 
 app = Flask(__name__)
 CORS(app)  
-#contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
-contract_file = "/app/contracts/device_contract.json"
-topic = "yolo"
-port = 1883
-host = "eclipse.cisco.com"
-client= mqtt.Client() 
+contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
+#contract_file = "/app/contracts/device_contract.json"
+MQTT_topic = "yolo"
+MQTT_port = 1883
+MQTT_host = "iot.eclipse.org"
+MQTT_client= mqtt.Client("p1")
+
 
 @app.route("/contract", methods=['POST', 'GET'])
 @cross_origin()
@@ -43,6 +44,11 @@ def read_contract(file_name):
            print(ex)
            return {'address': ""}
 
+def on_message(client, userdata, msg):
+   print("message received " , str(msg.payload.decode("utf-8")))  
+   global payload
+   payload = msg.payload
+   print(str(payload))
        
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
@@ -51,7 +57,6 @@ def get_urls():
     if urls:
         return jsonify({"urls" : urls}), 200
     return jsonify({"urls":[]}), 200
-
 
 #1.Check to see if there is a contract on this device
 #2. Get the subscribers of the device by querying the blockchain
@@ -75,19 +80,23 @@ def collect_urls():
 #Sending data to the subscribers
 def send_data_to_subscribers(urls): 
     try:
-        client.connect(host,port)
-        recieved_msgs = client.subscribe(topic)
-        print(recieved_msgs)
+        MQTT_client.on_message = on_message
+        MQTT_client.connect(MQTT_host,MQTT_port)
+        while not MQTT_client.on_disconnect:
+            MQTT_client.subscribe(MQTT_topic)
+            recieved_msg = str(MQTT_client.subscribe(MQTT_topic))
+            print(recieved_msg)
+            for u in urls:
+                    print("first url:",u)
+                    requests.post(u, data= recieved_msg)
+            MQTT_client.loop_start()
+            time.sleep(4)
     except Exception as e:
         print("Could not connect to mqtt broker: ")
         print(e)
         sys.exit(1)
-
-    for msg in recieved_msgs:
-        for u in urls:
-            print(msg)
-            requests.post(u, data=json.dumps(msg))
-
+   
+   
 def do_stuff():
     with app.test_request_context():
         while True:  
