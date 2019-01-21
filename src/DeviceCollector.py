@@ -11,22 +11,18 @@ import paho.mqtt.client as mqtt
 
 app = Flask(__name__)
 CORS(app)  
-<<<<<<< HEAD
 contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
 #contract_file = "/app/contracts/device_contract.json"
 MQTT_topic = "yolo"
 MQTT_port = 1883
 MQTT_host = "iot.eclipse.org"
 MQTT_client= mqtt.Client("p1")
-
-=======
-#contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
 contract_file = "/app/contracts/device_contract.json"
 topic = "yolo"
 port = 1883
 host = "iot.eclipse.org"
 client= mqtt.Client() 
->>>>>>> ab67b0a9b188af0320d17f6aec4512994295ccb0
+
 
 @app.route("/contract", methods=['POST', 'GET'])
 @cross_origin()
@@ -55,9 +51,6 @@ def read_contract(file_name):
 
 def on_message(client, userdata, msg):
    print("message received " , str(msg.payload.decode("utf-8")))  
-   global payload
-   payload = msg.payload
-   print(str(payload))
        
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
