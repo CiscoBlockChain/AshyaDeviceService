@@ -2,18 +2,22 @@ from __future__ import absolute_import
 from web3 import Web3,HTTPProvider
 import  device_ABI
 import requests
-import json, os, sys
+import json, sys
 from flask import Flask, request, jsonify
 import threading, time
 from flask_cors import CORS, cross_origin
-from kafka import KafkaConsumer
+import paho.mqtt.client as mqtt
+
 
 app = Flask(__name__)
 CORS(app)  
 #contract_file = "C:/CiscoBlockchain/web-service/src/etc/ashya/device_contract.json"
 contract_file = "/app/contracts/device_contract.json"
-kafka_service = os.environ['KAFKA_HOST']
-kafka_topic = 'yolo'
+MQTT_topic = "yolo"
+MQTT_port = 1883
+MQTT_host = os.environ("MQTT_HOST")
+MQTT_client= mqtt.Client()
+msg_payload = ""
 
 
 @app.route("/contract", methods=['POST', 'GET'])
@@ -23,6 +27,7 @@ def contract():
         return write_contract(request.json, contract_file)
     elif(request.method == "GET"):
         return jsonify(read_contract(contract_file))
+
   
 def write_contract(json_data, file_name):
     print("json data: ", json_data)
@@ -31,6 +36,7 @@ def write_contract(json_data, file_name):
             json.dump(json_data, outfile)  
         return jsonify(read_contract(file_name)), 201
 
+
 def read_contract(file_name):
    try:
        with open(file_name, "r") as f:
@@ -38,6 +44,11 @@ def read_contract(file_name):
    except Exception as ex:
            print(ex)
            return {'address': ""}
+
+def on_message(client, userdata, msg):
+   print("message received " , str(msg.payload.decode("utf-8")))
+   global msg_payload 
+   msg_payload = str(msg.payload.decode("utf-8"))
        
 @app.route("/urls", methods=['GET'])
 @cross_origin()      
@@ -47,11 +58,9 @@ def get_urls():
         return jsonify({"urls" : urls}), 200
     return jsonify({"urls":[]}), 200
 
+#1.Check to see if there is a contract on this device
+#2. Get the subscribers of the device by querying the blockchain
 def collect_urls():
-    """
-    1. Check to see if there is a contract on this device
-    2. Get the subscribers of the device by querying the blockchain
-    """
     urls = []
     contractHash = read_contract(contract_file)
     print(contractHash)
@@ -66,27 +75,28 @@ def collect_urls():
         nb = contract.functions.getURLCount().call()
         for i in range(0,nb):
             urls.append(contract.functions.urls(i).call())
+            print(urls)
     return urls
            
 def send_data_to_subscribers(urls): 
-    """
-    Sending data to the subscribers
-    """
     try:
-        consumer = KafkaConsumer(kafka_topic, bootstrap_servers=kafka_service)
+        MQTT_client.on_message = on_message
+        MQTT_client.connect(MQTT_host,MQTT_port)
+        while not MQTT_client.on_disconnect:
+            MQTT_client.subscribe(MQTT_topic)
+            print("subscribing to" , MQTT_topic , "topic")
+            for u in urls:
+                if msg_payload != "":
+                    print("payload" ,msg_payload)
+                    requests.post(u, json.dumps(msg_payload))
+            MQTT_client.loop_start()
+            time.sleep(4)
     except Exception as e:
-        print("Could not connect to Kafka service: ", kafka_service)
+        print("Could not connect to mqtt broker: ")
         print(e)
-        
         sys.exit(1)
-
-    for msg in consumer:
-        for u in urls:
-            print(msg)
-            requests.post(u, data=json.dumps(msg))
-    consumer.close()
-
-
+   
+   
 def do_stuff():
     with app.test_request_context():
         while True:  

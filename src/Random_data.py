@@ -1,17 +1,20 @@
 from __future__ import absolute_import
-from kafka import KafkaProducer
 from mimesis.schema import Field, Schema
 import json
+import paho.mqtt.client as mqtt
 
-def kafka_connect():
-    producer = KafkaProducer(bootstrap_servers='localhost:9092')
+topic = "yolo"
+port = 1883
+host = "iot.eclipse.org"
+client= mqtt.Client() 
+
+def connect():
+    client.connect(host,port)
     print("here")
     temp = generate()   
     try:
-        val = json.dumps(temp).encode()
-        producer.send('test', value=val)
-        #producer.send("test", temp)
-        producer.flush()
+        val = json.dumps(temp)
+        client.publish(topic,val)
         print('Message published successfully.')
     except Exception as ex:
         print('Exception in publishing message')
@@ -34,7 +37,7 @@ def generate():
     print(r)
     return r
 
-        
+
         
 if __name__ == "__main__":
-     kafka_connect()
+     connect()

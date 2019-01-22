@@ -1,5 +1,4 @@
 FROM python:3-alpine
-#RUN apk add build-base
 RUN apk update \
     && apk upgrade \
     && apk add --update make gcc python3-dev musl-dev \
