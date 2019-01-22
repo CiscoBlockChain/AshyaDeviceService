@@ -13,17 +13,15 @@ def on_message(client, userdata, msg):
 def get_values():
     client.on_message = on_message
     client.connect(host, port)
-<<<<<<< HEAD
     while not client.on_disconnect:
         client.subscribe(topic)
         client.loop_start()
         time.sleep(4)
-=======
     recieved_msgs = client.subscribe(topic)
     for msg in recieved_msgs:
         print(msg)
     client.loop_start()
->>>>>>> ab67b0a9b188af0320d17f6aec4512994295ccb0
+
             
     
 if __name__ == "__main__":

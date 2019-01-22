@@ -1,5 +1,4 @@
 from __future__ import absolute_import
-#from kafka import KafkaProducer
 from mimesis.schema import Field, Schema
 import json
 import paho.mqtt.client as mqtt
@@ -16,9 +15,6 @@ def connect():
     try:
         val = json.dumps(temp)
         client.publish(topic,val)
-        #producer.send('test', value=val)
-        #producer.send("test", temp)
-        #producer.flush()
         print('Message published successfully.')
     except Exception as ex:
         print('Exception in publishing message')
