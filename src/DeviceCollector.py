@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from web3 import Web3,HTTPProvider
 import  device_ABI
 import requests
-import json, sys
+import json, sys,os
 from flask import Flask, request, jsonify
 import threading, time
 from flask_cors import CORS, cross_origin
@@ -15,7 +15,7 @@ CORS(app)
 contract_file = "/app/contracts/device_contract.json"
 MQTT_topic = "yolo"
 MQTT_port = 1883
-MQTT_host = os.environ("MQTT_HOST")
+MQTT_host = os.environ.get("MQTT_HOST")
 MQTT_client= mqtt.Client()
 msg_payload = ""
 
