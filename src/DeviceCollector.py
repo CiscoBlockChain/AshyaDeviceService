@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify
 import threading, time
 from flask_cors import CORS, cross_origin
 import paho.mqtt.client as mqtt
+import logging
 
 
 app = Flask(__name__)
@@ -18,6 +19,9 @@ MQTT_port = 1883
 MQTT_host = os.environ.get("MQTT_HOST")
 MQTT_client= mqtt.Client()
 msg_payload = ""
+logging.basicConfig(format='%(asctime)s %(message)s', level = logging.INFO)
+
+
 
 
 @app.route("/contract", methods=['POST', 'GET'])
@@ -75,7 +79,6 @@ def collect_urls():
         nb = contract.functions.getURLCount().call()
         for i in range(0,nb):
             urls.append(contract.functions.urls(i).call())
-            print(urls)
     return urls
            
 def send_data_to_subscribers(urls): 
@@ -87,10 +90,12 @@ def send_data_to_subscribers(urls):
             print("subscribing to" , MQTT_topic , "topic")
             for u in urls:
                 if msg_payload != "":
-                    print("payload" ,msg_payload)
-                    requests.post(u, json.dumps(msg_payload))
+                    print("Posting" ,msg_payload, "to", u)
+                    r= requests.post(u, json.dumps(msg_payload))
+                    logging.info("Delivered json data to suscribers %s" , r)
             MQTT_client.loop_start()
-            time.sleep(4)
+            time.sleep(10)
+            
     except Exception as e:
         print("Could not connect to mqtt broker: ")
         print(e)
@@ -115,3 +120,4 @@ if __name__ == "__main__":
     app.run(debug = True,host = '0.0.0.0',port=5050)
     do_stuff()
     print ("Script has ended...")
+
