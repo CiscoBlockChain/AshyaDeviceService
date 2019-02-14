@@ -28,8 +28,8 @@ services:
     links:
       - mqtt
     environment:
-      MQTT_HOST: mqtt
-
+      - MQTT_HOST=mqtt
+      - PYTHONUNBUFFERED=0
   yolo:
     image: ashya/yolo-pi
     depends_on:

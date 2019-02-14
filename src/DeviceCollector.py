@@ -81,13 +81,15 @@ def collect_urls():
             urls.append(contract.functions.urls(i).call())
     return urls
            
-def send_data_to_subscribers(urls): 
+def send_data_to_subscribers(): 
     try:
         MQTT_client.on_message = on_message
         MQTT_client.connect(MQTT_host,MQTT_port)
         while not MQTT_client.on_disconnect:
+            urls = collect_urls()
             MQTT_client.subscribe(MQTT_topic)
             print("subscribing to" , MQTT_topic , "topic")
+            print("sending data to: ", urls)
             for u in urls:
                 if msg_payload != "":
                     print("Posting" ,msg_payload, "to", u)
@@ -103,11 +105,12 @@ def send_data_to_subscribers(urls):
    
    
 def do_stuff():
+    """
+    Enter into thread to send data to subscribers. 
+    """
     with app.test_request_context():
         while True:  
-            urls = collect_urls()
-            send_data_to_subscribers(urls)
-            time.sleep(5)  
+            send_data_to_subscribers()
       
 with app.test_request_context():           
     _thread = threading.Thread(target=do_stuff)
