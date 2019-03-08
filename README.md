@@ -32,9 +32,9 @@ A full description of this project you can find [here](https://github.com/CiscoB
 
 10- Save the IP address for later.
 
-#### 1.2 Get [Docker](https://docs.docker.com/) 
+### 2- Get [Docker](https://docs.docker.com/) 
 
-##### 1.1 Download and install Docker for raspberry Pi:
+#### 2.1 Download and install Docker for raspberry Pi:
 
 Our web application will run inside a docker container, so in order to be able to run the web application you need to download and install [Docker](https://docs.docker.com/install/linux/docker-ce/debian/) on your raspberry pi.
 
@@ -55,7 +55,7 @@ $ sudo docker run hello-world
  
  ![](docker.jpg)
  
- ##### 1.2 Install docker compose:
+ #### 2.2 Install docker compose:
 
  Compose is a tool for defining and running multi-container Docker applications. With Compose, you will be able to run YAML file which   contains all the container need to configure our application's services. 
  
@@ -67,33 +67,33 @@ $ sudo docker run hello-world
  
  PS: don't forget to write sudo when running docker commands, else you will get permission denied error. 
 
-### 2- Run the application 
+### 3- Run the application 
 
-#### 2.1 Get Metamask
+#### 3.1 Get Metamask
 Metamask is a browser extension provides a user interface to manage identities on different sites and sign blockchain transactions.
 In this demo, every new device is represented by a smart contract. So we will use Metamask to enable us to deploy smart contracts on the blockchain and register devices to [Ashya.io](https://ashya.io/) to be visible for subscribers.
 
 You can get the extension from [Metamask](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn) 
 A full guide for using Metamask you can find [here](https://medium.com/publicaio/a-complete-guide-to-using-metamask-updated-version-cd0d6f8c338f)
 
-#### 2.2 Create an account on Kovan-testnetwork.
+#### 3.2 Create an account on Kovan-testnetwork.
 
-#### 2.3 Get some ether 
+#### 3.3 Get some ether 
 Once you create an account, get some fake ether from [Kovan testnet/Fauset](https://gitter.im/kovan-testnet/faucet) by signing in to this website and posting your account address in the chat box, you can request ether.
 
 We now need to get the code from GitHub, in order to build our system. So first you will need to install Git in your Raspberry pi.
 
-#### 2.4 SSH to Raspberry Pi
+#### 3.4 SSH to Raspberry Pi
 Establish SSH connection to your Raspberry Pi using PuTTY, insert the IP address of the raspberry pi in the host name field and then press open.
 
-#### 2.5 Download Git on the Raspberry Pi
+#### 3.5 Download Git on the Raspberry Pi
 
 Run:
 
 `sudo apt install git`
 
 
-#### 2.6 Download this repository
+#### 3.6 Download this repository
 
 On the command line go to a directory where you will remember (I use ~/Code for all my code, but feel free to customize as you desire),from there, run:
 
@@ -113,7 +113,7 @@ Then run:
 
   Make sure you watch the screen until you start seeing all the containers get up. 
   
- #### 2.7 Create a device contract
+ #### 3.7 Create a device contract
  
  Open the web browser to the IP address of your Rpi
   
@@ -125,7 +125,7 @@ Then run:
  
  ![](device.png)
  
- #### 2.8 Optionally: Register your device on Ashya.io
+ #### 3.8 Optionally: Register your device on Ashya.io
  
  If you want the people to see your device and subscribe to the stream of data produced by your device, you cann press Register Device button and confirm the transaction. This will charge you a little more ether. 
  
