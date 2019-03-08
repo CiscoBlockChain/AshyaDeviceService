@@ -53,6 +53,8 @@ $ sudo docker run hello-world
 
  When the container runs, it prints an informational message (Hello from Docker!) and exits.
  
+ ![](docker.jpg)
+ 
  ##### 1.2 Install docker compose:
 
  Compose is a tool for defining and running multi-container Docker applications. With Compose, you will be able to run YAML file which   contains all the container need to configure our application's services. 
@@ -106,6 +108,8 @@ Move to AshyaDeviceService by running
 Then run:
 
 `sudo docker-compose up -d`
+
+![](compose.png)
 
   Make sure you watch the screen until you start seeing all the containers get up. 
   
