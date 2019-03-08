@@ -1,5 +1,5 @@
 ## Ashya: IoT devices registry on Blockchain 
-###  A web application for registering IoT devices based on Blockchain.
+###  Web application for registering IoT devices based on Blockchain.
 A full description of this project you can find [here](https://github.com/CiscoBlockChain/EthExperiments/blob/master/KlugeAshay.md)
 
 
