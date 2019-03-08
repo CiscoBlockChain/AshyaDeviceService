@@ -119,7 +119,7 @@ Then run:
   
  If everything goes well you should see this page:
  
- ![]("Device")
+ ![](device.png)
  
  #### 2.8 Optionally: Register your device on Ashya.io
  
@@ -130,7 +130,7 @@ Then run:
  
  
  
- ![]("Register")
+ ![](register.png)
  
  Here you can add a callback URL which specifies where the recieved data should go to. 
  After adding a subscriber and submitting the transaction on Metamask, your Url will be listed in the suscribers list and the json   output recieved from the object recognition software will be sent in directly and realtime to this URL. 
