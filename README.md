@@ -53,7 +53,7 @@ $ sudo docker run hello-world
 
  When the container runs, it prints an informational message (Hello from Docker!) and exits.
  
- ![](docker.jpg)
+ ![](docker.png)
  
  #### 2.2 Install docker compose:
 
